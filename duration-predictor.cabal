@@ -1,0 +1,78 @@
+cabal-version:      2.4
+name:               duration-predictor
+version:            0.1.0.0
+
+-- A short (one-line) description of the package.
+synopsis:           Better predict how much time does it take to complete recurring activities
+
+-- A longer description of the package.
+-- description:
+
+-- A URL where users can report bugs.
+-- bug-reports:
+
+-- The license under which the package is released.
+license:            MIT
+author:             Christopher Duncan
+maintainer:         chris.duncan.arauz+git@protonmail.com
+
+-- A copyright notice.
+-- copyright:
+-- category:
+-- extra-source-files: CHANGELOG.md
+
+library
+    exposed-modules:
+        ActivityAggregate
+        Duration
+        Entity
+        NonEmptyString
+
+    -- Modules included in this library but not exported.
+    other-modules:
+        ActivityAggregate.Activity
+        ActivityAggregate.ActivityId
+        ActivityAggregate.Measurement
+
+    -- LANGUAGE extensions used by modules in this package.
+    -- other-extensions:
+    build-depends:
+        base ^>=4.14.3.0,
+        polysemy,
+        polysemy-plugin,
+        time,
+        uuid
+    ghc-options: -O2 -flate-specialise -fspecialise-aggressively -fplugin=Polysemy.Plugin
+    default-extensions:
+        DataKinds
+        FlexibleContexts
+        GADTs
+        LambdaCase
+        MultiParamTypeClasses
+        PolyKinds
+        RankNTypes
+        ScopedTypeVariables
+        TemplateHaskell
+        TypeApplications
+        TypeOperators
+        TypeFamilies
+    hs-source-dirs:   src
+    default-language: Haskell2010
+
+executable duration-predictor
+    main-is:          Main.hs
+
+    -- Modules included in this executable, other than Main.
+    other-modules:
+        Wizard
+
+    -- LANGUAGE extensions used by modules in this package.
+    -- other-extensions:
+    build-depends:
+        base ^>=4.14.3.0,
+        duration-predictor,
+        time,
+        uuid
+
+    hs-source-dirs:   app
+    default-language: Haskell2010
