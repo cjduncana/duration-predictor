@@ -2,6 +2,7 @@ module NonEmptyString
   ( NonEmptyString,
     NonEmptyStringError (EmptyString),
     create,
+    build,
   )
 where
 
@@ -14,6 +15,9 @@ create string =
   if null string
     then Left EmptyString
     else Right (NonEmptyString string)
+
+build :: Char -> String -> NonEmptyString
+build character string = NonEmptyString (character : string)
 
 -- Instances
 

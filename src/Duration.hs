@@ -6,7 +6,7 @@ import Data.Time.Clock (NominalDiffTime)
 import qualified Data.Time.Clock as Time
 import qualified GHC.Read as Read
 
-newtype Duration = Duration NominalDiffTime
+newtype Duration = Duration NominalDiffTime deriving (Eq)
 
 newtype DurationError = NegativeValue NominalDiffTime deriving (Show)
 
