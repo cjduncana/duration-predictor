@@ -11,9 +11,13 @@
 -- that the state of the Entity can be changed anytime, but as long as two
 -- Entities have the same ID, both are considered equal regardless what fields
 -- they have.
-module Entity (Entity, getId) where
+module Entity (Entity, getId, equal) where
 
 -- | Any data that has an identity (ID)
-class Entity a id where
+class Entity a id | a -> id where
   -- | Will output the ID for any Entity
   getId :: a -> id
+
+-- | Two Entities are equal if they share the same identity
+equal :: (Eq id, Entity a id) => a -> a -> Bool
+equal a b = getId a Prelude.== getId b

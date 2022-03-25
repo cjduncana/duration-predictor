@@ -46,6 +46,7 @@ library
     default-extensions:
         DataKinds
         FlexibleContexts
+        FunctionalDependencies
         GADTs
         LambdaCase
         MultiParamTypeClasses

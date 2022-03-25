@@ -3,7 +3,8 @@ module ActivityAggregate.Activity (Activity, ActivityId, create) where
 import ActivityAggregate.ActivityId (ActivityId)
 import qualified ActivityAggregate.ActivityId as ActivityId
 import Data.UUID (UUID)
-import Entity (Entity, getId)
+import Entity (Entity)
+import qualified Entity
 import NonEmptyString (NonEmptyString)
 
 newtype Name = Name NonEmptyString
@@ -30,3 +31,6 @@ instance Show Activity where
 
 instance Entity Activity ActivityId where
   getId = ActivityAggregate.Activity.id
+
+instance Eq Activity where
+  (==) = Entity.equal
