@@ -1,5 +1,7 @@
 # Duration Predictor (title subject to change)
 
+[![Contributor Covenant](https://img.shields.io/badge/Contributor%20Covenant-2.1-4baaaa.svg)](CODE_OF_CONDUCT.md)
+
 Better predict how much time does it take to complete recurring activities.
 
 ### Problem
