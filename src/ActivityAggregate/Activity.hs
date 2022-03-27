@@ -1,4 +1,4 @@
-module ActivityAggregate.Activity (Activity, ActivityId, create) where
+module ActivityAggregate.Activity (Activity, create) where
 
 import ActivityAggregate.ActivityId (ActivityId)
 import qualified ActivityAggregate.ActivityId as ActivityId

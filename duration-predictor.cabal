@@ -24,6 +24,7 @@ maintainer:         chris.duncan.arauz+git@protonmail.com
 library
     exposed-modules:
         ActivityAggregate
+        ActivityAggregate.Repository
         Duration
         Entity
         NonEmptyString
@@ -40,6 +41,7 @@ library
         base ^>=4.14.3.0,
         polysemy,
         polysemy-plugin,
+        polysemy-zoo ^>= 0.8.0.0,
         time,
         uuid
     ghc-options: -O2 -flate-specialise -fspecialise-aggressively -fplugin=Polysemy.Plugin
@@ -83,17 +85,37 @@ test-suite test
         test.hs
     other-modules:
         ActivityAggregateTests
+        ActivityAggregate.RepositoryTests
         DurationTests
         NonEmptyStringTests
         Utils
     build-depends:
         base ^>=4.14.3.0,
+        containers,
         duration-predictor,
+        polysemy,
+        polysemy-plugin,
+        polysemy-zoo ^>= 0.8.0.0,
+        random,
         tasty >= 0.7,
         tasty-hunit,
         tasty-quickcheck,
         time,
         uuid
+    default-extensions:
+        DataKinds
+        FlexibleContexts
+        FunctionalDependencies
+        GADTs
+        LambdaCase
+        MultiParamTypeClasses
+        PolyKinds
+        RankNTypes
+        ScopedTypeVariables
+        TemplateHaskell
+        TypeApplications
+        TypeOperators
+        TypeFamilies
     type:
         exitcode-stdio-1.0
     hs-source-dirs:

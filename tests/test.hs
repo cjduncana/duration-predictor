@@ -1,3 +1,4 @@
+import qualified ActivityAggregate.RepositoryTests
 import ActivityAggregateTests (activityAggregateTests)
 import DurationTests (durationTests)
 import NonEmptyStringTests (nonEmptyStringTests)
@@ -11,4 +12,8 @@ tests :: TestTree
 tests =
   Tasty.testGroup
     "Duration Predictor Tests"
-    [activityAggregateTests, durationTests, nonEmptyStringTests]
+    [ activityAggregateTests,
+      ActivityAggregate.RepositoryTests.repositoryTests,
+      durationTests,
+      nonEmptyStringTests
+    ]
