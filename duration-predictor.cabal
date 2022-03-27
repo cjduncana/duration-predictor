@@ -41,7 +41,7 @@ library
         base ^>=4.14.3.0,
         polysemy,
         polysemy-plugin,
-        polysemy-zoo ^>= 0.8.0.0,
+        polysemy-zoo,
         time,
         uuid
     ghc-options: -O2 -flate-specialise -fspecialise-aggressively -fplugin=Polysemy.Plugin
@@ -95,9 +95,9 @@ test-suite test
         duration-predictor,
         polysemy,
         polysemy-plugin,
-        polysemy-zoo ^>= 0.8.0.0,
+        polysemy-zoo,
         random,
-        tasty >= 0.7,
+        tasty,
         tasty-hunit,
         tasty-quickcheck,
         time,
