@@ -18,19 +18,17 @@ import ActivityAggregate.ActivityId (ActivityId)
 import Data.Functor ((<&>))
 import Data.Time.Clock (UTCTime)
 import Duration (Duration)
-import qualified Entity
 import NonEmptyString (NonEmptyString)
-import Polysemy (Member, Members, Sem)
+import Polysemy (Members, Sem)
 import Polysemy.Error (Error)
 import Polysemy.Input (Input)
 import qualified Polysemy.Input as Input
-import Polysemy.KVStore (KVStore)
-import qualified Polysemy.KVStore as KVStore
 import Polysemy.Random (Random)
 import qualified Polysemy.Random as Random
-
--- | A repository to create and get Activities
-type ActivityRepository = KVStore ActivityId ActivityAggregate
+import Control.Monad ((>=>))
+import qualified Polysemy.Error as Error
+import ActivityAggregate.Repository.Internal (ActivityRepository)
+import qualified ActivityAggregate.Repository.Internal as Internal
 
 -- | Possible reasons why this module might fail
 newtype RepositoryError
@@ -43,30 +41,26 @@ create ::
   Members '[ActivityRepository, Random, Input UTCTime] r =>
   NonEmptyString ->
   Duration ->
-  Sem r ()
-create name duration = do
-  activity <- mcreate name duration
-  storeActivity activity
+  Sem r ActivityAggregate
+create name = mcreate name >=> Internal.create
 
 -- | Add a new Measurement to an existing Activity
 measure ::
   Members '[ActivityRepository, Random, Input UTCTime, Error RepositoryError] r =>
   ActivityId ->
   Duration ->
-  Sem r ()
+  Sem r ActivityAggregate
 measure activityId duration = do
   existingActivity <- getActivity activityId
-  newActivity <- mmeasure existingActivity duration
-  storeActivity newActivity
+  mmeasure existingActivity duration >>= Internal.update
 
 -- | Calculate the next prediction based on existing Measurements
 predictDuration ::
   Members '[ActivityRepository, Error RepositoryError] r =>
   ActivityId ->
   Sem r Duration
-predictDuration activityId = do
-  existingActivity <- getActivity activityId
-  return $ ActivityAggregate.predictDuration existingActivity
+predictDuration activityId =
+  getActivity activityId <&> ActivityAggregate.predictDuration
 
 -- Helper functions
 
@@ -95,9 +89,7 @@ mmeasure activity duration =
     <*> Input.input
 
 getActivity ::
-  Members '[ActivityRepository, Error RepositoryError] r => ActivityId -> Sem r ActivityAggregate
-getActivity = KVStore.lookupOrThrowKV ActivityNotFound
-
-storeActivity :: Member ActivityRepository r => ActivityAggregate -> Sem r ()
-storeActivity activity =
-  KVStore.writeKV (Entity.getId activity) activity
+  Members '[ActivityRepository, Error RepositoryError] r =>
+  ActivityId -> Sem r ActivityAggregate
+getActivity activityId =
+  Internal.get activityId >>= Error.note (ActivityNotFound activityId)

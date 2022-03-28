@@ -25,6 +25,7 @@ library
     exposed-modules:
         ActivityAggregate
         ActivityAggregate.Repository
+        ActivityAggregate.Repository.State
         Duration
         Entity
         NonEmptyString
@@ -34,11 +35,13 @@ library
         ActivityAggregate.Activity
         ActivityAggregate.ActivityId
         ActivityAggregate.Measurement
+        ActivityAggregate.Repository.Internal
 
     -- LANGUAGE extensions used by modules in this package.
     -- other-extensions:
     build-depends:
         base ^>=4.14.3.0,
+        containers,
         polysemy,
         polysemy-plugin,
         polysemy-zoo,
@@ -73,9 +76,28 @@ executable duration-predictor
     -- other-extensions:
     build-depends:
         base ^>=4.14.3.0,
+        containers,
         duration-predictor,
+        polysemy,
+        polysemy-plugin,
+        polysemy-zoo,
         time,
         uuid
+
+    default-extensions:
+        DataKinds
+        FlexibleContexts
+        FunctionalDependencies
+        GADTs
+        LambdaCase
+        MultiParamTypeClasses
+        PolyKinds
+        RankNTypes
+        ScopedTypeVariables
+        TemplateHaskell
+        TypeApplications
+        TypeOperators
+        TypeFamilies
 
     hs-source-dirs:   app
     default-language: Haskell2010

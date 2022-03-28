@@ -4,38 +4,32 @@ import ActivityAggregate (ActivityAggregate, ActivityId)
 import qualified ActivityAggregate
 import ActivityAggregate.Repository (ActivityRepository, RepositoryError)
 import qualified ActivityAggregate.Repository as Repository
+import ActivityAggregate.Repository.State (ActivityMap)
+import qualified ActivityAggregate.Repository.State as Repository
 import Control.Category ((>>>))
 import qualified Data.Either as Either
 import Data.Function ((&))
 import qualified Data.List.NonEmpty as NonEmpty
-import Data.Map.Strict (Map)
 import qualified Data.Map.Strict as Map
 import Data.Time.Clock (UTCTime)
-import qualified Data.Time.Clock as Time
 import Duration (Duration)
 import qualified Entity
 import NonEmptyString (NonEmptyString)
-import qualified NonEmptyString
 import Polysemy (Embed, Member, Sem)
 import qualified Polysemy
-import Polysemy.Error (Error)
 import qualified Polysemy.Error as Error
 import Polysemy.Input (Input)
 import qualified Polysemy.Input as Input
-import qualified Polysemy.KVStore as KVStore
 import Polysemy.Random (Random)
 import qualified Polysemy.Random as Random
+import qualified Polysemy.State as State
 import System.Random (RandomGen)
 import qualified System.Random as Random
 import Test.Tasty (TestTree)
 import qualified Test.Tasty as Tasty
-import Test.Tasty.HUnit (Assertion, (@?=))
-import qualified Test.Tasty.HUnit as HUnit
 import Test.Tasty.QuickCheck (Property, (===))
 import qualified Test.Tasty.QuickCheck as QC
 import qualified Utils
-
-type ActivityMap = Map ActivityId ActivityAggregate
 
 repositoryTests :: TestTree
 repositoryTests =
@@ -113,7 +107,8 @@ consumeStoreRandomAndInputPure ::
   Sem (ActivityRepository : Random : Input UTCTime : r) a ->
   Sem r ActivityMap
 consumeStoreRandomAndInputPure time rng activityMap =
-  KVStore.runKVStorePurely activityMap
+  Repository.runActivityRepositoryAsState
+    >>> State.runState activityMap
     >>> Random.runRandom rng
     >>> fmap snd
     >>> Input.runInputConst time
