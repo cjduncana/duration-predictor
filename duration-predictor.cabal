@@ -28,6 +28,7 @@ library
         ActivityAggregate.Repository.State
         Duration
         Entity
+        Indexable
         NonEmptyText
 
     -- Modules included in this library but not exported.

@@ -1,5 +1,6 @@
 module ActivityAggregate.Repository.Internal
   ( ActivityRepository (Create, Get, ListActivities, Update),
+    listActivities,
     create,
     get,
     update,

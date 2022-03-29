@@ -9,6 +9,7 @@ module ActivityAggregate.Repository
     create,
     measure,
     predictDuration,
+    Internal.listActivities
   )
 where
 
