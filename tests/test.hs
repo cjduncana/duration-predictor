@@ -1,7 +1,7 @@
 import qualified ActivityAggregate.RepositoryTests
 import ActivityAggregateTests (activityAggregateTests)
 import DurationTests (durationTests)
-import NonEmptyStringTests (nonEmptyStringTests)
+import NonEmptyTextTests (nonEmptyTextTests)
 import Test.Tasty (TestTree)
 import qualified Test.Tasty as Tasty
 
@@ -15,5 +15,5 @@ tests =
     [ activityAggregateTests,
       ActivityAggregate.RepositoryTests.repositoryTests,
       durationTests,
-      nonEmptyStringTests
+      nonEmptyTextTests
     ]

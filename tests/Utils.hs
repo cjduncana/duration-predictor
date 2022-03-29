@@ -1,9 +1,12 @@
-module Utils where
+module Utils (constDurations, running) where
 
 import ActivityAggregate (ActivityAggregate, ActivityId)
 import qualified ActivityAggregate
 import Control.Monad (Monad)
+import Data.Function ((&))
 import Data.List.NonEmpty (NonEmpty ((:|)))
+import Data.Text (Text)
+import qualified Data.Text as T
 import Data.Time.Calendar (Day)
 import Data.Time.Clock (DiffTime, NominalDiffTime, UTCTime (UTCTime))
 import Data.UUID (UUID)
@@ -11,12 +14,10 @@ import qualified Data.UUID as UUID
 import Duration (Duration)
 import qualified Duration
 import Entity (Entity (getId))
-import NonEmptyString (NonEmptyString)
-import qualified NonEmptyString
+import NonEmptyText (NonEmptyText)
+import qualified NonEmptyText
 import Test.Tasty.QuickCheck (Arbitrary, Gen)
 import qualified Test.Tasty.QuickCheck as QC
-
--- Helper functions
 
 constDurations :: a -> Gen (NonEmpty a)
 constDurations duration =
@@ -26,8 +27,15 @@ constDurations duration =
   where
     constDuration = pure duration
 
-running :: NonEmptyString
-running = NonEmptyString.build 'R' "unning"
+-- Helper functions
+
+eitherToMaybe :: Either b a -> Maybe a
+eitherToMaybe = either (const Nothing) Just
+
+running :: NonEmptyText
+running =
+  NonEmptyText.create (T.pack "Running")
+    & either undefined id
 
 -- Instances
 
@@ -52,17 +60,23 @@ instance Arbitrary DiffTime where
 instance Arbitrary NominalDiffTime where
   arbitrary = fromInteger <$> QC.arbitrary
 
-instance Arbitrary NonEmptyString where
-  arbitrary = NonEmptyString.build <$> QC.arbitrary <*> QC.arbitrary
+instance Arbitrary NonEmptyText where
+  arbitrary =
+    QC.suchThatMap
+      (NonEmptyText.create <$> QC.arbitrary)
+      eitherToMaybe
 
 instance Arbitrary Duration where
   arbitrary =
     QC.suchThatMap
       (Duration.create <$> QC.arbitrary)
-      (either (const Nothing) Just)
+      eitherToMaybe
 
 instance Arbitrary a => Arbitrary (NonEmpty a) where
   arbitrary = (:|) <$> QC.arbitrary <*> QC.arbitrary
+
+instance Arbitrary Text where
+  arbitrary = T.pack <$> QC.arbitrary
 
 instance Arbitrary UUID where
   arbitrary = UUID.fromWords64 <$> QC.arbitrary <*> QC.arbitrary

@@ -18,7 +18,7 @@ import ActivityAggregate.ActivityId (ActivityId)
 import Data.Functor ((<&>))
 import Data.Time.Clock (UTCTime)
 import Duration (Duration)
-import NonEmptyString (NonEmptyString)
+import NonEmptyText (NonEmptyText)
 import Polysemy (Members, Sem)
 import Polysemy.Error (Error)
 import Polysemy.Input (Input)
@@ -39,7 +39,7 @@ newtype RepositoryError
 -- | Create a new Activity in the repository
 create ::
   Members '[ActivityRepository, Random, Input UTCTime] r =>
-  NonEmptyString ->
+  NonEmptyText ->
   Duration ->
   Sem r ActivityAggregate
 create name = mcreate name >=> Internal.create
@@ -66,7 +66,7 @@ predictDuration activityId =
 
 mcreate ::
   Members '[Random, Input UTCTime] r =>
-  NonEmptyString ->
+  NonEmptyText ->
   Duration ->
   Sem r ActivityAggregate
 mcreate name duration =

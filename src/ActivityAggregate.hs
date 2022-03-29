@@ -28,7 +28,7 @@ import Duration (Duration)
 import qualified Duration
 import Entity (Entity)
 import qualified Entity
-import NonEmptyString (NonEmptyString)
+import NonEmptyText (NonEmptyText)
 
 -- | An 'Activity' and at least one 'Measurement'
 newtype ActivityAggregate = ActivityAggregate (Activity, NonEmpty Measurement)
@@ -38,7 +38,7 @@ create ::
   -- | New 'Activity' ID
   UUID ->
   -- | New 'Activity' Name
-  NonEmptyString ->
+  NonEmptyText ->
   -- | New 'Measurement' ID
   UUID ->
   -- | Amount of time elapsed completing this 'Activity'

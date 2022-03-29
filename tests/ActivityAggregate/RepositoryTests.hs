@@ -14,7 +14,7 @@ import qualified Data.Map.Strict as Map
 import Data.Time.Clock (UTCTime)
 import Duration (Duration)
 import qualified Entity
-import NonEmptyString (NonEmptyString)
+import NonEmptyText (NonEmptyText)
 import Polysemy (Embed, Member, Sem)
 import qualified Polysemy
 import qualified Polysemy.Error as Error
@@ -53,7 +53,7 @@ measureTests =
     ]
 
 createTest ::
-  NonEmptyString ->
+  NonEmptyText ->
   Duration ->
   UTCTime ->
   Int ->

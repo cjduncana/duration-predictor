@@ -28,7 +28,7 @@ library
         ActivityAggregate.Repository.State
         Duration
         Entity
-        NonEmptyString
+        NonEmptyText
 
     -- Modules included in this library but not exported.
     other-modules:
@@ -45,6 +45,7 @@ library
         polysemy,
         polysemy-plugin,
         polysemy-zoo,
+        text,
         time,
         uuid
     ghc-options: -O2 -flate-specialise -fspecialise-aggressively -fplugin=Polysemy.Plugin
@@ -81,6 +82,7 @@ executable duration-predictor
         polysemy,
         polysemy-plugin,
         polysemy-zoo,
+        text,
         time,
         uuid
 
@@ -109,7 +111,7 @@ test-suite test
         ActivityAggregateTests
         ActivityAggregate.RepositoryTests
         DurationTests
-        NonEmptyStringTests
+        NonEmptyTextTests
         Utils
     build-depends:
         base ^>=4.14.3.0,
@@ -122,6 +124,7 @@ test-suite test
         tasty,
         tasty-hunit,
         tasty-quickcheck,
+        text,
         time,
         uuid
     default-extensions:

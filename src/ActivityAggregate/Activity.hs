@@ -5,16 +5,16 @@ import qualified ActivityAggregate.ActivityId as ActivityId
 import Data.UUID (UUID)
 import Entity (Entity)
 import qualified Entity
-import NonEmptyString (NonEmptyString)
+import NonEmptyText (NonEmptyText)
 
-newtype Name = Name NonEmptyString
+newtype Name = Name NonEmptyText
 
 data Activity = Activity
   { id :: ActivityId,
     name :: Name
   }
 
-create :: UUID -> NonEmptyString -> Activity
+create :: UUID -> NonEmptyText -> Activity
 create id name =
   Activity
     { ActivityAggregate.Activity.id = ActivityId.create id,

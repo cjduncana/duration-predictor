@@ -3,8 +3,6 @@ module ActivityAggregateTests (activityAggregateTests) where
 import qualified ActivityAggregate
 import qualified Data.Time.Clock as Time
 import qualified Data.UUID.V4 as UUID
-import NonEmptyString (NonEmptyString)
-import qualified NonEmptyString
 import Test.Tasty (TestTree)
 import qualified Test.Tasty as Tasty
 import Test.Tasty.HUnit ((@?=))
