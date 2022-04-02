@@ -69,8 +69,7 @@ program = do
       case action of
         CreateNewActivity -> createActivity >> program
         MeasureActivity -> measureActivity activities >> program
-        -- TODO
-        PredictDuration -> program
+        PredictDuration -> predictDuration activities >> program
         Quit -> outputGoodbye
 
 askWhenEmpty ::
@@ -148,32 +147,35 @@ measureActivity activities = do
   displayActivities activities
   outputEmptyLine
   Output.output "Which Activity do you want to measure?"
-  eAnswer <- Input.inputs (T.unpack >>> Read.readEither)
-  either mapError mapValidIndex eAnswer
+  selectActivity activities measureActivity whenActivitySelected
   where
-    mapError errorMsg = do
-      outputEmptyLine
-      Output.output errorMsg
-      outputMisunderstanding
-      outputEmptyLine
-      measureActivity activities
-
-    mapValidIndex =
-      (\i -> i - 1)
-        >>> Indexable.index activities
-        >>> either whenInvalidIndex whenActivitySelected
-
-    whenInvalidIndex error = do
-      outputEmptyLine
-      Output.output $ show error
-      Output.output "Let me try again."
-      outputEmptyLine
-      measureActivity activities
-
     whenActivitySelected activity = do
       duration <- collectDuration
       newActivity <- Repository.measure (Entity.getId activity) duration
       Output.output $ "You measured '" ++ show newActivity ++ "' as lasting " ++ show duration ++ " seconds."
+      outputEmptyLine
+
+predictDuration ::
+  Members
+    '[ Input Text,
+       Output String,
+       ActivityRepository,
+       Error RepositoryError
+     ]
+    r =>
+  NonEmpty ActivityAggregate ->
+  Sem r ()
+predictDuration activities = do
+  Output.output "Let's predict the next Measurement!"
+  outputEmptyLine
+  displayActivities activities
+  outputEmptyLine
+  Output.output "Which Activity do you want to predict?"
+  selectActivity activities predictDuration whenActivitySelected
+  where
+    whenActivitySelected activity = do
+      duration <- Repository.predictDuration (Entity.getId activity)
+      Output.output $ "We predict that '" ++ show activity ++ "' will last " ++ show duration ++ " seconds."
       outputEmptyLine
 
 collectName :: Members '[Input Text, Output String] r => Sem r NonEmptyText
@@ -200,6 +202,35 @@ collectDuration = do
       collectDuration
 
     mapDuration = Duration.create >>> either doAgain return
+
+selectActivity ::
+  Members '[Input Text, Output String] r =>
+  NonEmpty ActivityAggregate ->
+  (NonEmpty ActivityAggregate -> Sem r ()) ->
+  (ActivityAggregate -> Sem r ()) ->
+  Sem r ()
+selectActivity activities whenActivitiesFailed whenActivitySelected = do
+  eAnswer <- Input.inputs (T.unpack >>> Read.readEither)
+  either mapError mapValidIndex eAnswer
+  where
+    mapError errorMsg = do
+      outputEmptyLine
+      Output.output errorMsg
+      outputMisunderstanding
+      outputEmptyLine
+      whenActivitiesFailed activities
+
+    mapValidIndex =
+      (\i -> i - 1)
+        >>> Indexable.index activities
+        >>> either whenInvalidIndex whenActivitySelected
+
+    whenInvalidIndex error = do
+      outputEmptyLine
+      Output.output $ show error
+      Output.output "Let me try again."
+      outputEmptyLine
+      whenActivitiesFailed activities
 
 displayActivities :: Member (Output String) r => NonEmpty ActivityAggregate -> Sem r ()
 displayActivities =
