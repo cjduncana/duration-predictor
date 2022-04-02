@@ -1,9 +1,9 @@
 import qualified ActivityAggregate.RepositoryTests
 import ActivityAggregateTests (activityAggregateTests)
 import DurationTests (durationTests)
-import NonEmptyTextTests (nonEmptyTextTests)
 import Test.Tasty (TestTree)
 import qualified Test.Tasty as Tasty
+import Utils.NonEmptyTextTests (nonEmptyTextTests)
 
 main :: IO ()
 main = Tasty.defaultMain tests

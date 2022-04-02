@@ -1,4 +1,4 @@
-module Indexable where
+module Utils.Indexable where
 
 import Data.List.NonEmpty (NonEmpty, (!!))
 import Prelude hiding ((!!))

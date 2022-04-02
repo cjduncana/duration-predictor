@@ -13,11 +13,10 @@ import Data.UUID (UUID)
 import qualified Data.UUID as UUID
 import Duration (Duration)
 import qualified Duration
-import Entity (Entity (getId))
-import NonEmptyText (NonEmptyText)
-import qualified NonEmptyText
 import Test.Tasty.QuickCheck (Arbitrary, Gen)
 import qualified Test.Tasty.QuickCheck as QC
+import Utils.NonEmptyText (NonEmptyText)
+import qualified Utils.NonEmptyText as NonEmptyText
 
 constDurations :: a -> Gen (NonEmpty a)
 constDurations duration =

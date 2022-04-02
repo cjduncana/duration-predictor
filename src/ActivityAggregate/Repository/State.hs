@@ -15,11 +15,11 @@ import ActivityAggregate.Repository.Internal (ActivityRepository (Create, Get, L
 import Data.Function ((&))
 import Data.Map.Strict (Map)
 import qualified Data.Map.Strict as Map
-import qualified Entity
 import Polysemy (Sem)
 import qualified Polysemy
 import Polysemy.State (State)
 import qualified Polysemy.State as State
+import qualified Utils.Entity as Entity
 
 -- | A map of Activities where the keys are its IDs
 type ActivityMap = Map ActivityId ActivityAggregate

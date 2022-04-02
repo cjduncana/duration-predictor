@@ -11,7 +11,7 @@
 -- that the state of the Entity can be changed anytime, but as long as two
 -- Entities have the same ID, both are considered equal regardless what fields
 -- they have.
-module Entity (Entity, getId, equal) where
+module Utils.Entity (Entity, getId, equal) where
 
 -- | Any data that has an identity (ID)
 class Entity a id | a -> id where

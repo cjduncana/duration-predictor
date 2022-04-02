@@ -13,8 +13,6 @@ import qualified Data.List.NonEmpty as NonEmpty
 import qualified Data.Map.Strict as Map
 import Data.Time.Clock (UTCTime)
 import Duration (Duration)
-import qualified Entity
-import NonEmptyText (NonEmptyText)
 import Polysemy (Embed, Member, Sem)
 import qualified Polysemy
 import qualified Polysemy.Error as Error
@@ -30,6 +28,8 @@ import qualified Test.Tasty as Tasty
 import Test.Tasty.QuickCheck (Property, (===))
 import qualified Test.Tasty.QuickCheck as QC
 import qualified Utils
+import qualified Utils.Entity as Entity
+import Utils.NonEmptyText (NonEmptyText)
 
 repositoryTests :: TestTree
 repositoryTests =

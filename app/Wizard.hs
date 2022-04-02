@@ -19,10 +19,6 @@ import Data.Time.Clock (NominalDiffTime, UTCTime)
 import qualified Data.Time.Clock as Time
 import Duration (Duration)
 import qualified Duration
-import qualified Entity
-import qualified Indexable
-import NonEmptyText (NonEmptyText)
-import qualified NonEmptyText
 import Polysemy (Embed, Member, Members, Sem)
 import qualified Polysemy
 import Polysemy.Error (Error)
@@ -35,6 +31,10 @@ import Polysemy.Random (Random)
 import qualified Polysemy.Random as Random
 import qualified Polysemy.State as State
 import qualified Text.Read as Read
+import qualified Utils.Entity as Entity
+import qualified Utils.Indexable as Indexable
+import Utils.NonEmptyText (NonEmptyText)
+import qualified Utils.NonEmptyText as NonEmptyText
 
 data Action
   = CreateNewActivity

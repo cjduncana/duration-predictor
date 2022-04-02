@@ -1,4 +1,4 @@
-module NonEmptyTextTests (nonEmptyTextTests) where
+module Utils.NonEmptyTextTests (nonEmptyTextTests) where
 
 import Control.Category ((>>>))
 import qualified Data.Either as Either
@@ -7,12 +7,12 @@ import Data.Functor ((<&>))
 import Data.Text (Text)
 import qualified Data.Text as T
 import qualified GHC.Exts as GHC
-import qualified NonEmptyText
 import Polysemy.Law (Gen)
 import Test.Tasty (TestTree)
 import qualified Test.Tasty as Tasty
 import Test.Tasty.QuickCheck (Property, (===), (==>))
 import qualified Test.Tasty.QuickCheck as QC
+import qualified Utils.NonEmptyText as NonEmptyText
 
 nonEmptyTextTests :: TestTree
 nonEmptyTextTests =

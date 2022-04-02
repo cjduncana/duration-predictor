@@ -3,7 +3,7 @@
 -- Description: A Text guaranteed to have at least one character
 --
 -- This modules guarantees that a 'NonEmptyText' has at least one 'Char'.
-module NonEmptyText
+module Utils.NonEmptyText
   ( NonEmptyText,
     NonEmptyTextError (EmptyText),
     create,

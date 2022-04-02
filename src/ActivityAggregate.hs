@@ -26,9 +26,9 @@ import Data.Time.Clock (UTCTime)
 import Data.UUID (UUID)
 import Duration (Duration)
 import qualified Duration
-import Entity (Entity)
-import qualified Entity
-import NonEmptyText (NonEmptyText)
+import Utils.Entity (Entity)
+import qualified Utils.Entity as Entity
+import Utils.NonEmptyText (NonEmptyText)
 
 -- | An 'Activity' and at least one 'Measurement'
 newtype ActivityAggregate = ActivityAggregate (Activity, NonEmpty Measurement)

@@ -27,9 +27,9 @@ library
         ActivityAggregate.Repository
         ActivityAggregate.Repository.State
         Duration
-        Entity
-        Indexable
-        NonEmptyText
+        Utils.Entity
+        Utils.Indexable
+        Utils.NonEmptyText
 
     -- Modules included in this library but not exported.
     other-modules:
@@ -112,8 +112,8 @@ test-suite test
         ActivityAggregateTests
         ActivityAggregate.RepositoryTests
         DurationTests
-        NonEmptyTextTests
         Utils
+        Utils.NonEmptyTextTests
     build-depends:
         base ^>=4.14.3.0,
         containers,

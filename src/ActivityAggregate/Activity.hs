@@ -3,9 +3,9 @@ module ActivityAggregate.Activity (Activity, create) where
 import ActivityAggregate.ActivityId (ActivityId)
 import qualified ActivityAggregate.ActivityId as ActivityId
 import Data.UUID (UUID)
-import Entity (Entity)
-import qualified Entity
-import NonEmptyText (NonEmptyText)
+import Utils.Entity (Entity)
+import qualified Utils.Entity as Entity
+import Utils.NonEmptyText (NonEmptyText)
 
 newtype Name = Name NonEmptyText
 
