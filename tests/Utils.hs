@@ -1,7 +1,5 @@
 module Utils (constDurations, running) where
 
-import ActivityAggregate (ActivityAggregate, ActivityId)
-import qualified ActivityAggregate
 import Control.Monad (Monad)
 import Data.Function ((&))
 import Data.List.NonEmpty (NonEmpty ((:|)))
@@ -11,8 +9,10 @@ import Data.Time.Calendar (Day)
 import Data.Time.Clock (DiffTime, NominalDiffTime, UTCTime (UTCTime))
 import Data.UUID (UUID)
 import qualified Data.UUID as UUID
-import Duration (Duration)
-import qualified Duration
+import Domain.ActivityAggregate (ActivityAggregate, ActivityId)
+import qualified Domain.ActivityAggregate as ActivityAggregate
+import Domain.Duration (Duration)
+import qualified Domain.Duration as Duration
 import Test.Tasty.QuickCheck (Arbitrary, Gen)
 import qualified Test.Tasty.QuickCheck as QC
 import Utils.NonEmptyText (NonEmptyText)

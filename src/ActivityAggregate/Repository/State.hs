@@ -10,11 +10,11 @@ module ActivityAggregate.Repository.State
   )
 where
 
-import ActivityAggregate (ActivityAggregate, ActivityId)
 import ActivityAggregate.Repository.Internal (ActivityRepository (Create, Get, ListActivities, Update))
 import Data.Function ((&))
 import Data.Map.Strict (Map)
 import qualified Data.Map.Strict as Map
+import Domain.ActivityAggregate (ActivityAggregate, ActivityId)
 import Polysemy (Sem)
 import qualified Polysemy
 import Polysemy.State (State)

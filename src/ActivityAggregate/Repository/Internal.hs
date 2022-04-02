@@ -7,8 +7,8 @@ module ActivityAggregate.Repository.Internal
   )
 where
 
-import ActivityAggregate (ActivityAggregate)
-import ActivityAggregate.ActivityId (ActivityId)
+import Domain.ActivityAggregate (ActivityAggregate)
+import Domain.ActivityId (ActivityId)
 import qualified Polysemy
 
 -- | A repository to create and get Activities

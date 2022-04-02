@@ -1,13 +1,13 @@
-module ActivityAggregate.Measurement (Measurement, create, predictDuration) where
+module Domain.Measurement (Measurement, create, predictDuration) where
 
-import ActivityAggregate.ActivityId (ActivityId)
 import Data.Function ((&))
 import Data.Functor ((<&>))
 import Data.List.NonEmpty (NonEmpty)
 import Data.Time.Clock (UTCTime)
 import Data.UUID (UUID)
-import Duration (Duration)
-import qualified Duration
+import Domain.ActivityId (ActivityId)
+import Domain.Duration (Duration)
+import qualified Domain.Duration as Duration
 
 newtype MeasurementId = MeasurementId UUID
 
@@ -21,7 +21,7 @@ data Measurement = Measurement
 create :: UUID -> ActivityId -> Duration -> UTCTime -> Measurement
 create id activityId duration measuredAt =
   Measurement
-    { ActivityAggregate.Measurement.id = MeasurementId id,
+    { Domain.Measurement.id = MeasurementId id,
       activityId = activityId,
       duration = duration,
       measuredAt = measuredAt

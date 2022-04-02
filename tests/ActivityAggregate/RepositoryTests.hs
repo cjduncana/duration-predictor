@@ -1,7 +1,5 @@
 module ActivityAggregate.RepositoryTests (repositoryTests) where
 
-import ActivityAggregate (ActivityAggregate, ActivityId)
-import qualified ActivityAggregate
 import ActivityAggregate.Repository (ActivityRepository, RepositoryError)
 import qualified ActivityAggregate.Repository as Repository
 import ActivityAggregate.Repository.State (ActivityMap)
@@ -12,7 +10,9 @@ import Data.Function ((&))
 import qualified Data.List.NonEmpty as NonEmpty
 import qualified Data.Map.Strict as Map
 import Data.Time.Clock (UTCTime)
-import Duration (Duration)
+import Domain.ActivityAggregate (ActivityAggregate, ActivityId)
+import qualified Domain.ActivityAggregate as ActivityAggregate
+import Domain.Duration (Duration)
 import Polysemy (Embed, Member, Sem)
 import qualified Polysemy
 import qualified Polysemy.Error as Error

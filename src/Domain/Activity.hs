@@ -1,8 +1,8 @@
-module ActivityAggregate.Activity (Activity, create) where
+module Domain.Activity (Activity, create) where
 
-import ActivityAggregate.ActivityId (ActivityId)
-import qualified ActivityAggregate.ActivityId as ActivityId
 import Data.UUID (UUID)
+import Domain.ActivityId (ActivityId)
+import qualified Domain.ActivityId as ActivityId
 import Utils.Entity (Entity)
 import qualified Utils.Entity as Entity
 import Utils.NonEmptyText (NonEmptyText)
@@ -17,7 +17,7 @@ data Activity = Activity
 create :: UUID -> NonEmptyText -> Activity
 create id name =
   Activity
-    { ActivityAggregate.Activity.id = ActivityId.create id,
+    { Domain.Activity.id = ActivityId.create id,
       name = Name name
     }
 
@@ -30,7 +30,7 @@ instance Show Activity where
   show = show . name
 
 instance Entity Activity ActivityId where
-  getId = ActivityAggregate.Activity.id
+  getId = Domain.Activity.id
 
 instance Eq Activity where
   (==) = Entity.equal

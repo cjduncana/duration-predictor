@@ -1,8 +1,8 @@
-module ActivityAggregateTests (activityAggregateTests) where
+module Domain.ActivityAggregateTests (activityAggregateTests) where
 
-import qualified ActivityAggregate
 import qualified Data.Time.Clock as Time
 import qualified Data.UUID.V4 as UUID
+import qualified Domain.ActivityAggregate as ActivityAggregate
 import Test.Tasty (TestTree)
 import qualified Test.Tasty as Tasty
 import Test.Tasty.HUnit ((@?=))

@@ -3,7 +3,7 @@
 -- Description: The amount of time elapsed between two events
 --
 -- A 'Duration' is the amount of time elapsed between two events.
-module Duration (Duration, DurationError (NegativeValue), create, mean) where
+module Domain.Duration (Duration, DurationError (NegativeValue), create, mean) where
 
 import Data.Functor ((<&>))
 import Data.List.NonEmpty (NonEmpty)

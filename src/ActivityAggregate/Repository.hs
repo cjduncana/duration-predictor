@@ -13,12 +13,12 @@ module ActivityAggregate.Repository
   )
 where
 
-import ActivityAggregate (ActivityAggregate)
-import qualified ActivityAggregate
-import ActivityAggregate.ActivityId (ActivityId)
+import Domain.ActivityAggregate (ActivityAggregate)
+import qualified Domain.ActivityAggregate as ActivityAggregate
+import Domain.ActivityId (ActivityId)
 import Data.Functor ((<&>))
 import Data.Time.Clock (UTCTime)
-import Duration (Duration)
+import Domain.Duration (Duration)
 import Utils.NonEmptyText (NonEmptyText)
 import Polysemy (Members, Sem)
 import Polysemy.Error (Error)

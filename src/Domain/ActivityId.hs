@@ -1,4 +1,4 @@
-module ActivityAggregate.ActivityId (ActivityId, create) where
+module Domain.ActivityId (ActivityId, create) where
 
 import Data.UUID (UUID)
 

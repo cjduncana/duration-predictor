@@ -1,6 +1,6 @@
 import qualified ActivityAggregate.RepositoryTests
-import ActivityAggregateTests (activityAggregateTests)
-import DurationTests (durationTests)
+import Domain.ActivityAggregateTests (activityAggregateTests)
+import Domain.DurationTests (durationTests)
 import Test.Tasty (TestTree)
 import qualified Test.Tasty as Tasty
 import Utils.NonEmptyTextTests (nonEmptyTextTests)

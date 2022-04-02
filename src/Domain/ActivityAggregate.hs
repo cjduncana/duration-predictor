@@ -3,7 +3,7 @@
 -- Description: Functions relating Activities and their Measurements
 --
 -- This module contain functions relating Activities and their Measurements.
-module ActivityAggregate
+module Domain.ActivityAggregate
   ( ActivityAggregate,
     ActivityId,
     create,
@@ -14,18 +14,18 @@ module ActivityAggregate
   )
 where
 
-import ActivityAggregate.Activity (Activity)
-import qualified ActivityAggregate.Activity as Activity
-import ActivityAggregate.ActivityId (ActivityId)
-import qualified ActivityAggregate.ActivityId as ActivityId
-import ActivityAggregate.Measurement (Measurement)
-import qualified ActivityAggregate.Measurement as Measurement
 import Data.Bifunctor (first)
 import Data.List.NonEmpty (NonEmpty, (<|))
 import Data.Time.Clock (UTCTime)
 import Data.UUID (UUID)
-import Duration (Duration)
-import qualified Duration
+import Domain.Activity (Activity)
+import qualified Domain.Activity as Activity
+import Domain.ActivityId (ActivityId)
+import qualified Domain.ActivityId as ActivityId
+import Domain.Duration (Duration)
+import qualified Domain.Duration as Duration
+import Domain.Measurement (Measurement)
+import qualified Domain.Measurement as Measurement
 import Utils.Entity (Entity)
 import qualified Utils.Entity as Entity
 import Utils.NonEmptyText (NonEmptyText)

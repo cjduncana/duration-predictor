@@ -23,20 +23,20 @@ maintainer:         chris.duncan.arauz+git@protonmail.com
 
 library
     exposed-modules:
-        ActivityAggregate
         ActivityAggregate.Repository
         ActivityAggregate.Repository.State
-        Duration
+        Domain.ActivityAggregate
+        Domain.Duration
         Utils.Entity
         Utils.Indexable
         Utils.NonEmptyText
 
     -- Modules included in this library but not exported.
     other-modules:
-        ActivityAggregate.Activity
-        ActivityAggregate.ActivityId
-        ActivityAggregate.Measurement
         ActivityAggregate.Repository.Internal
+        Domain.Activity
+        Domain.ActivityId
+        Domain.Measurement
 
     -- LANGUAGE extensions used by modules in this package.
     -- other-extensions:
@@ -109,9 +109,9 @@ test-suite test
     main-is:
         test.hs
     other-modules:
-        ActivityAggregateTests
         ActivityAggregate.RepositoryTests
-        DurationTests
+        Domain.ActivityAggregateTests
+        Domain.DurationTests
         Utils
         Utils.NonEmptyTextTests
     build-depends:

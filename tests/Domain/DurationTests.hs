@@ -1,10 +1,10 @@
-module DurationTests (durationTests) where
+module Domain.DurationTests (durationTests) where
 
 import qualified Data.Either as Either
 import Data.List.NonEmpty (NonEmpty ((:|)))
 import Data.Time.Clock (NominalDiffTime)
-import Duration (Duration)
-import qualified Duration
+import Domain.Duration (Duration)
+import qualified Domain.Duration as Duration
 import Test.Tasty (TestTree)
 import qualified Test.Tasty as Tasty
 import Test.Tasty.QuickCheck (Arbitrary, Gen, Property, (.&&.), (===), (==>))
