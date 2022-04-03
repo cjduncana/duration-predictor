@@ -61,7 +61,13 @@ trimTextTest =
         <*> blankText
 
 nonEmptyText :: Gen Text
-nonEmptyText = QC.arbitrary <&> QC.getNonEmpty <&> GHC.fromList
+nonEmptyText =
+  QC.arbitrary
+    <&> QC.getNonEmpty
+    <&> GHC.fromList
+    & flip QC.suchThat isNotWhitespace
+  where
+    isNotWhitespace = T.strip >>> T.null >>> not
 
 blankText :: Gen Text
 blankText = QC.listOf (pure ' ') <&> GHC.fromList
