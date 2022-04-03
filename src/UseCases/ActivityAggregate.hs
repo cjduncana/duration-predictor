@@ -1,11 +1,13 @@
 -- |
--- Module: Activity Aggregate Repository
--- Description: Interact with the Activity Repository
+-- Module: Activity Aggregate Use Cases
+-- Description: Use Case layer for the Activity system
 --
--- This module provides an interface of all Activity behaviors.
-module ActivityAggregate.Repository
+-- This module specifies the Use Case layer for the Reservation system. It
+-- coordinates access to Effects and the actual domain logic. The module exposes
+-- service functions that will be used by the REST API in the External layer.
+module UseCases.ActivityAggregate
   ( ActivityRepository,
-    RepositoryError (ActivityNotFound),
+    ActivityError (ActivityNotFound),
     create,
     measure,
     predictDuration,
@@ -32,7 +34,7 @@ import ActivityAggregate.Repository.Internal (ActivityRepository)
 import qualified ActivityAggregate.Repository.Internal as Internal
 
 -- | Possible reasons why this module might fail
-newtype RepositoryError
+newtype ActivityError
   = ActivityNotFound  -- ^ If this module cannot get a Activity in the
                       -- repository
   ActivityId          -- ^ ID of a non-existent Activity
@@ -47,7 +49,7 @@ create name = mcreate name >=> Internal.create
 
 -- | Add a new Measurement to an existing Activity
 measure ::
-  Members '[ActivityRepository, Random, Input UTCTime, Error RepositoryError] r =>
+  Members '[ActivityRepository, Random, Input UTCTime, Error ActivityError] r =>
   ActivityId ->
   Duration ->
   Sem r ActivityAggregate
@@ -57,7 +59,7 @@ measure activityId duration = do
 
 -- | Calculate the next prediction based on existing Measurements
 predictDuration ::
-  Members '[ActivityRepository, Error RepositoryError] r =>
+  Members '[ActivityRepository, Error ActivityError] r =>
   ActivityId ->
   Sem r Duration
 predictDuration activityId =
@@ -90,7 +92,7 @@ mmeasure activity duration =
     <*> Input.input
 
 getActivity ::
-  Members '[ActivityRepository, Error RepositoryError] r =>
+  Members '[ActivityRepository, Error ActivityError] r =>
   ActivityId -> Sem r ActivityAggregate
 getActivity activityId =
   Internal.get activityId >>= Error.note (ActivityNotFound activityId)

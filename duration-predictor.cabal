@@ -23,10 +23,10 @@ maintainer:         chris.duncan.arauz+git@protonmail.com
 
 library
     exposed-modules:
-        ActivityAggregate.Repository
         ActivityAggregate.Repository.State
         Domain.ActivityAggregate
         Domain.Duration
+        UseCases.ActivityAggregate
         Utils.Entity
         Utils.Indexable
         Utils.NonEmptyText
@@ -109,9 +109,9 @@ test-suite test
     main-is:
         test.hs
     other-modules:
-        ActivityAggregate.RepositoryTests
         Domain.ActivityAggregateTests
         Domain.DurationTests
+        UseCases.ActivityAggregateTests
         Utils
         Utils.NonEmptyTextTests
     build-depends:

@@ -1,7 +1,5 @@
-module ActivityAggregate.RepositoryTests (repositoryTests) where
+module UseCases.ActivityAggregateTests (useCasesTests) where
 
-import ActivityAggregate.Repository (ActivityRepository, RepositoryError)
-import qualified ActivityAggregate.Repository as Repository
 import ActivityAggregate.Repository.State (ActivityMap)
 import qualified ActivityAggregate.Repository.State as Repository
 import Control.Category ((>>>))
@@ -27,14 +25,16 @@ import Test.Tasty (TestTree)
 import qualified Test.Tasty as Tasty
 import Test.Tasty.QuickCheck (Property, (===))
 import qualified Test.Tasty.QuickCheck as QC
+import UseCases.ActivityAggregate (ActivityError, ActivityRepository)
+import qualified UseCases.ActivityAggregate as UseCases
 import qualified Utils
 import qualified Utils.Entity as Entity
 import Utils.NonEmptyText (NonEmptyText)
 
-repositoryTests :: TestTree
-repositoryTests =
+useCasesTests :: TestTree
+useCasesTests =
   Tasty.testGroup
-    "Activity Aggregate Repository Module"
+    "Activity Aggregate Use Cases Module"
     [createTests, measureTests]
 
 createTests :: TestTree
@@ -64,7 +64,7 @@ createTest activityName activityDuration time seed activityMap =
   where
     newActivityMap = Polysemy.run program
     program =
-      Repository.create activityName activityDuration
+      UseCases.create activityName activityDuration
         & consumeStoreRandomAndInputPure time rng activityMap
     rng = Random.mkStdGen seed
 
@@ -74,9 +74,9 @@ notFoundMeasureTest activityId activityDuration time seed =
   where
     result = Polysemy.run program
     program =
-      Repository.measure activityId activityDuration
+      UseCases.measure activityId activityDuration
         & consumeStoreRandomAndInputPure time rng Map.empty
-        & Error.runError @RepositoryError
+        & Error.runError @ActivityError
     rng = Random.mkStdGen seed
 
 foundMeasureTest :: ActivityAggregate -> Duration -> UTCTime -> Int -> Bool
@@ -90,9 +90,9 @@ foundMeasureTest activity activityDuration time seed =
         >>> maybe False (getNewLength >>> (==) (oldLength + 1))
     result = Polysemy.run program
     program =
-      Repository.measure activityId activityDuration
+      UseCases.measure activityId activityDuration
         & consumeStoreRandomAndInputPure time rng activityMap
-        & Error.runError @RepositoryError
+        & Error.runError @ActivityError
     activityMap = Map.singleton activityId activity
     activityId = Entity.getId activity
     rng = Random.mkStdGen seed

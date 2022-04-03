@@ -1,8 +1,8 @@
-import qualified ActivityAggregate.RepositoryTests
 import Domain.ActivityAggregateTests (activityAggregateTests)
 import Domain.DurationTests (durationTests)
 import Test.Tasty (TestTree)
 import qualified Test.Tasty as Tasty
+import qualified UseCases.ActivityAggregateTests
 import Utils.NonEmptyTextTests (nonEmptyTextTests)
 
 main :: IO ()
@@ -13,7 +13,7 @@ tests =
   Tasty.testGroup
     "Duration Predictor Tests"
     [ activityAggregateTests,
-      ActivityAggregate.RepositoryTests.repositoryTests,
+      UseCases.ActivityAggregateTests.useCasesTests,
       durationTests,
       nonEmptyTextTests
     ]

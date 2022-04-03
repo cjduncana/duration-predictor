@@ -1,7 +1,5 @@
 module Wizard (wizard) where
 
-import ActivityAggregate.Repository (ActivityRepository, RepositoryError)
-import qualified ActivityAggregate.Repository as Repository
 import ActivityAggregate.Repository.State (ActivityMap)
 import qualified ActivityAggregate.Repository.State as Repository
 import Control.Category ((>>>))
@@ -31,6 +29,8 @@ import Polysemy.Random (Random)
 import qualified Polysemy.Random as Random
 import qualified Polysemy.State as State
 import qualified Text.Read as Read
+import UseCases.ActivityAggregate (ActivityError, ActivityRepository)
+import qualified UseCases.ActivityAggregate as UseCases
 import qualified Utils.Entity as Entity
 import qualified Utils.Indexable as Indexable
 import Utils.NonEmptyText (NonEmptyText)
@@ -54,12 +54,12 @@ program ::
        ActivityRepository,
        Random,
        Input UTCTime,
-       Error RepositoryError
+       Error ActivityError
      ]
     r =>
   Sem r ()
 program = do
-  mActivities <- Repository.listActivities <&> NonEmpty.nonEmpty
+  mActivities <- UseCases.listActivities <&> NonEmpty.nonEmpty
   case mActivities of
     Nothing -> askWhenEmpty
     Just activities -> do
@@ -79,7 +79,7 @@ askWhenEmpty ::
        ActivityRepository,
        Random,
        Input UTCTime,
-       Error RepositoryError
+       Error ActivityError
      ]
     r =>
   Sem r ()
@@ -125,7 +125,7 @@ createActivity = do
   outputEmptyLine
   duration <- collectDuration
   outputEmptyLine
-  activity <- Repository.create name duration
+  activity <- UseCases.create name duration
   Output.output $ "You created a new Activiy named '" ++ show activity ++ "'"
   outputEmptyLine
 
@@ -136,7 +136,7 @@ measureActivity ::
        ActivityRepository,
        Random,
        Input UTCTime,
-       Error RepositoryError
+       Error ActivityError
      ]
     r =>
   NonEmpty ActivityAggregate ->
@@ -151,7 +151,7 @@ measureActivity activities = do
   where
     whenActivitySelected activity = do
       duration <- collectDuration
-      newActivity <- Repository.measure (Entity.getId activity) duration
+      newActivity <- UseCases.measure (Entity.getId activity) duration
       Output.output $ "You measured '" ++ show newActivity ++ "' as lasting " ++ show duration ++ " seconds."
       outputEmptyLine
 
@@ -160,7 +160,7 @@ predictDuration ::
     '[ Input Text,
        Output String,
        ActivityRepository,
-       Error RepositoryError
+       Error ActivityError
      ]
     r =>
   NonEmpty ActivityAggregate ->
@@ -174,7 +174,7 @@ predictDuration activities = do
   selectActivity activities predictDuration whenActivitySelected
   where
     whenActivitySelected activity = do
-      duration <- Repository.predictDuration (Entity.getId activity)
+      duration <- UseCases.predictDuration (Entity.getId activity)
       Output.output $ "We predict that '" ++ show activity ++ "' will last " ++ show duration ++ " seconds."
       outputEmptyLine
 
@@ -248,7 +248,7 @@ consumeProgramIO ::
        ActivityRepository,
        Random,
        Input UTCTime,
-       Error RepositoryError,
+       Error ActivityError,
        Embed IO
      ]
     a ->
