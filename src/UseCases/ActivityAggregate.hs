@@ -11,7 +11,7 @@ module UseCases.ActivityAggregate
     create,
     measure,
     predictDuration,
-    Internal.listActivities
+    Repository.listActivities
   )
 where
 
@@ -30,8 +30,8 @@ import Polysemy.Random (Random)
 import qualified Polysemy.Random as Random
 import Control.Monad ((>=>))
 import qualified Polysemy.Error as Error
-import ActivityAggregate.Repository.Internal (ActivityRepository)
-import qualified ActivityAggregate.Repository.Internal as Internal
+import UseCases.ActivityRepository (ActivityRepository)
+import qualified UseCases.ActivityRepository as Repository
 
 -- | Possible reasons why this module might fail
 newtype ActivityError
@@ -45,7 +45,7 @@ create ::
   NonEmptyText ->
   Duration ->
   Sem r ActivityAggregate
-create name = mcreate name >=> Internal.create
+create name = mcreate name >=> Repository.create
 
 -- | Add a new Measurement to an existing Activity
 measure ::
@@ -55,7 +55,7 @@ measure ::
   Sem r ActivityAggregate
 measure activityId duration = do
   existingActivity <- getActivity activityId
-  mmeasure existingActivity duration >>= Internal.update
+  mmeasure existingActivity duration >>= Repository.update
 
 -- | Calculate the next prediction based on existing Measurements
 predictDuration ::
@@ -95,4 +95,4 @@ getActivity ::
   Members '[ActivityRepository, Error ActivityError] r =>
   ActivityId -> Sem r ActivityAggregate
 getActivity activityId =
-  Internal.get activityId >>= Error.note (ActivityNotFound activityId)
+  Repository.get activityId >>= Error.note (ActivityNotFound activityId)

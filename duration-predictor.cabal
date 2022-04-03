@@ -23,9 +23,9 @@ maintainer:         chris.duncan.arauz+git@protonmail.com
 
 library
     exposed-modules:
-        ActivityAggregate.Repository.State
         Domain.ActivityAggregate
         Domain.Duration
+        InterfaceAdapters.ActivityRepositoryAsState
         UseCases.ActivityAggregate
         Utils.Entity
         Utils.Indexable
@@ -33,10 +33,10 @@ library
 
     -- Modules included in this library but not exported.
     other-modules:
-        ActivityAggregate.Repository.Internal
         Domain.Activity
         Domain.ActivityId
         Domain.Measurement
+        UseCases.ActivityRepository
 
     -- LANGUAGE extensions used by modules in this package.
     -- other-extensions:

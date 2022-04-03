@@ -4,13 +4,12 @@
 --
 -- This module interprets the Activity Repository using Polysemy's State monad.
 -- It does this by storing and manipulating a map of Activities in the State.
-module ActivityAggregate.Repository.State
+module InterfaceAdapters.ActivityRepositoryAsState
   ( ActivityMap,
     runActivityRepositoryAsState,
   )
 where
 
-import ActivityAggregate.Repository.Internal (ActivityRepository (Create, Get, ListActivities, Update))
 import Data.Function ((&))
 import Data.Map.Strict (Map)
 import qualified Data.Map.Strict as Map
@@ -19,6 +18,14 @@ import Polysemy (Sem)
 import qualified Polysemy
 import Polysemy.State (State)
 import qualified Polysemy.State as State
+import UseCases.ActivityRepository
+  ( ActivityRepository
+      ( Create,
+        Get,
+        ListActivities,
+        Update
+      ),
+  )
 import qualified Utils.Entity as Entity
 
 -- | A map of Activities where the keys are its IDs

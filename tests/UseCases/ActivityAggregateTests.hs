@@ -1,7 +1,5 @@
 module UseCases.ActivityAggregateTests (useCasesTests) where
 
-import ActivityAggregate.Repository.State (ActivityMap)
-import qualified ActivityAggregate.Repository.State as Repository
 import Control.Category ((>>>))
 import qualified Data.Either as Either
 import Data.Function ((&))
@@ -11,6 +9,8 @@ import Data.Time.Clock (UTCTime)
 import Domain.ActivityAggregate (ActivityAggregate, ActivityId)
 import qualified Domain.ActivityAggregate as ActivityAggregate
 import Domain.Duration (Duration)
+import InterfaceAdapters.ActivityRepositoryAsState (ActivityMap)
+import qualified InterfaceAdapters.ActivityRepositoryAsState as Repository
 import Polysemy (Embed, Member, Sem)
 import qualified Polysemy
 import qualified Polysemy.Error as Error

@@ -1,7 +1,5 @@
 module Wizard (wizard) where
 
-import ActivityAggregate.Repository.State (ActivityMap)
-import qualified ActivityAggregate.Repository.State as Repository
 import Control.Category ((>>>))
 import qualified Control.Monad as Monad
 import Data.Functor ((<&>))
@@ -17,6 +15,8 @@ import qualified Data.Time.Clock as Time
 import Domain.ActivityAggregate (ActivityAggregate, ActivityId)
 import Domain.Duration (Duration)
 import qualified Domain.Duration as Duration
+import InterfaceAdapters.ActivityRepositoryAsState (ActivityMap)
+import qualified InterfaceAdapters.ActivityRepositoryAsState as Repository
 import Polysemy (Embed, Member, Members, Sem)
 import qualified Polysemy
 import Polysemy.Error (Error)

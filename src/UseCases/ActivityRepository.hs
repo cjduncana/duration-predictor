@@ -1,4 +1,4 @@
-module ActivityAggregate.Repository.Internal
+module UseCases.ActivityRepository
   ( ActivityRepository (Create, Get, ListActivities, Update),
     listActivities,
     create,
