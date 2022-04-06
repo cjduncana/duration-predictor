@@ -26,7 +26,7 @@ To contribute to this project, you need the following programs:
 * [The Glasgow Haskell Compiler (GHC)][haskell-ghc]
 * [Cabal][haskell-cabal]
 
-If you do not have these tools, you can follow [GHCup instructions][haskell-ghcup] instructions to have them installed on your machine.
+If you do not have these tools, you can follow [GHCup][haskell-ghcup] instructions to have them installed on your machine.
 
 ## Running the wizard
 
