@@ -39,7 +39,7 @@ import qualified Utils.NonEmptyText as NonEmptyText
 data Action
   = CreateNewActivity
   | MeasureActivity
-  | PredictDuration
+  | Predict
   | Quit
 
 wizard :: IO ()
@@ -69,7 +69,7 @@ program = do
       case action of
         CreateNewActivity -> createActivity >> program
         MeasureActivity -> measureActivity activities >> program
-        PredictDuration -> predictDuration activities >> program
+        Predict -> predict activities >> program
         Quit -> outputGoodbye
 
 askWhenEmpty ::
@@ -152,10 +152,10 @@ measureActivity activities = do
     whenActivitySelected activity = do
       duration <- collectDuration
       newActivity <- UseCases.measure (Entity.getId activity) duration
-      Output.output $ "You measured '" ++ show newActivity ++ "' as lasting " ++ show duration ++ " seconds."
+      Output.output $ "You measured '" ++ show newActivity ++ "' as lasting " ++ show duration ++ "."
       outputEmptyLine
 
-predictDuration ::
+predict ::
   Members
     '[ Input Text,
        Output String,
@@ -165,17 +165,17 @@ predictDuration ::
     r =>
   NonEmpty ActivityAggregate ->
   Sem r ()
-predictDuration activities = do
+predict activities = do
   Output.output "Let's predict the next Measurement!"
   outputEmptyLine
   displayActivities activities
   outputEmptyLine
   Output.output "Which Activity do you want to predict?"
-  selectActivity activities predictDuration whenActivitySelected
+  selectActivity activities predict whenActivitySelected
   where
     whenActivitySelected activity = do
-      duration <- UseCases.predictDuration (Entity.getId activity)
-      Output.output $ "We predict that '" ++ show activity ++ "' will last " ++ show duration ++ " seconds."
+      prediction <- UseCases.predict (Entity.getId activity)
+      Output.output $ "We predict that '" ++ show activity ++ "' will last about " ++ show (round prediction) ++ " seconds."
       outputEmptyLine
 
 collectName :: Members '[Input Text, Output String] r => Sem r NonEmptyText
@@ -271,8 +271,8 @@ actionFromText text =
     "c" -> Just CreateNewActivity
     "measure" -> Just MeasureActivity
     "m" -> Just MeasureActivity
-    "predict" -> Just PredictDuration
-    "p" -> Just PredictDuration
+    "predict" -> Just Predict
+    "p" -> Just Predict
     "quit" -> Just Quit
     "q" -> Just Quit
     _ -> Nothing

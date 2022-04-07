@@ -7,24 +7,24 @@ module Domain.Duration (Duration, DurationError (NegativeValue), create, mean) w
 
 import Data.Functor ((<&>))
 import Data.List.NonEmpty (NonEmpty)
-import Data.Time.Clock (NominalDiffTime)
+import Data.Ratio (Ratio, (%))
 import qualified Data.Time.Clock as Time
 import qualified GHC.Read as Read
 
--- | Amount of time elapsed
-newtype Duration = Duration NominalDiffTime deriving (Eq)
+-- | Amount of time elapsed in seconds
+newtype Duration = Duration Int deriving (Eq)
 
 -- | Possible reasons why this module will not create a 'Duration'
 newtype DurationError
   = NegativeValue   -- ^ This module guarantees that all 'Duration' are
                     -- non-negative
-    NominalDiffTime -- ^ An invalid 'NominalDiffTime'
+    Int         -- ^ An invalid 'Int'
     deriving (Show)
 
 -- | Smart constructor for 'Duration'
 --
--- Provide a non-negative 'NominalDiffTime' to create a 'Duration'
-create  :: NominalDiffTime -- ^ Amount of time elapsed
+-- Provide a non-negative 'Int' to create a 'Duration'
+create  :: Int -- ^ Amount of time elapsed
         -> Either DurationError Duration
 create duration =
   if duration < 0
@@ -32,9 +32,11 @@ create duration =
     else Right (Duration duration)
 
 -- | The arithmetic mean of more than one 'Duration'
-mean :: NonEmpty Duration -> Duration
+mean :: NonEmpty Duration -> Ratio Int
 mean durations =
-  sum durations / realToFrac (length durations)
+  total % length durations
+  where
+    (Duration total) = sum durations
 
 -- Instances
 
@@ -73,14 +75,7 @@ instance Num Duration where
   (*) (Duration a) (Duration b) = Duration (a * b)
   abs = id
   signum (Duration duration) = Duration (signum duration)
-  fromInteger = Duration . fromInteger
-
-instance Fractional Duration where
-  fromRational = Duration . fromRational
-  recip (Duration duration) = Duration (recip duration)
+  fromInteger = Duration . fromIntegral
 
 instance Show Duration where
-  show (Duration duration) = show duration
-
-instance Read NominalDiffTime where
-  readPrec = Time.secondsToNominalDiffTime <$> Read.readPrec
+  show (Duration duration) = show duration ++ " seconds"

@@ -10,7 +10,7 @@ module UseCases.ActivityAggregate
     ActivityError (ActivityNotFound),
     create,
     measure,
-    predictDuration,
+    predict,
     Repository.listActivities
   )
 where
@@ -19,6 +19,7 @@ import Domain.ActivityAggregate (ActivityAggregate)
 import qualified Domain.ActivityAggregate as ActivityAggregate
 import Domain.ActivityId (ActivityId)
 import Data.Functor ((<&>))
+import Data.Ratio (Ratio)
 import Data.Time.Clock (UTCTime)
 import Domain.Duration (Duration)
 import Utils.NonEmptyText (NonEmptyText)
@@ -57,13 +58,14 @@ measure activityId duration = do
   existingActivity <- getActivity activityId
   mmeasure existingActivity duration >>= Repository.update
 
--- | Calculate the next prediction based on existing Measurements
-predictDuration ::
+-- | Calculate how many seconds the next 'Measurement' will take based on
+-- existing Measurements
+predict ::
   Members '[ActivityRepository, Error ActivityError] r =>
   ActivityId ->
-  Sem r Duration
-predictDuration activityId =
-  getActivity activityId <&> ActivityAggregate.predictDuration
+  Sem r (Ratio Int)
+predict activityId =
+  getActivity activityId <&> ActivityAggregate.predict
 
 -- Helper functions
 

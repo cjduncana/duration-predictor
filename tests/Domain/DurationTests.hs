@@ -15,7 +15,7 @@ durationTests :: TestTree
 durationTests =
   Tasty.testGroup
     "Duration Module"
-    [createTests, meanTests, numTests, fractionalTests]
+    [createTests, meanTests, numTests]
 
 createTests :: TestTree
 createTests =
@@ -65,15 +65,6 @@ numTests =
         distributivityTest
     ]
 
-fractionalTests :: TestTree
-fractionalTests =
-  Tasty.testGroup
-    "Fractional Duration Instance"
-    [ QC.testProperty
-        "should not guarantee a multiplicative inverse for every Duration"
-        (QC.expectFailure multiplicativeInverseTest)
-    ]
-
 validDurationTest :: Property
 validDurationTest =
   QC.forAll (QC.getNonNegative <$> QC.arbitrary) $
@@ -120,7 +111,3 @@ multiplicativeIdentityTest x =
 distributivityTest :: Duration -> Duration -> Duration -> Property
 distributivityTest a b c =
   a * (b + c) === (a * b) + (a * c) .&&. (b + c) * a === (b * a) + (c * a)
-
-multiplicativeInverseTest :: Duration -> Property
-multiplicativeInverseTest x =
-  x * recip x === 1 .&&. recip x * x === 1

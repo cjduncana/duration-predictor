@@ -23,5 +23,5 @@ activityAggregateTests =
     measuredAt2 <- Time.getCurrentTime
     let activityAggregate2 = ActivityAggregate.measure activityAggregate measurementUuid2 10800 measuredAt2
 
-    step "Predict Duration Function"
-    ActivityAggregate.predictDuration activityAggregate2 @?= 7200
+    step "Predict Function"
+    ActivityAggregate.predict activityAggregate2 @?= 7200

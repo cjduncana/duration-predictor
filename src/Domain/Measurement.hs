@@ -1,8 +1,9 @@
-module Domain.Measurement (Measurement, create, predictDuration) where
+module Domain.Measurement (Measurement, create, mean) where
 
 import Data.Function ((&))
 import Data.Functor ((<&>))
 import Data.List.NonEmpty (NonEmpty)
+import Data.Ratio (Ratio)
 import Data.Time.Clock (UTCTime)
 import Data.UUID (UUID)
 import Domain.ActivityId (ActivityId)
@@ -28,7 +29,7 @@ create id activityId duration measuredAt =
     }
 
 -- First naive prediction: averaging
-predictDuration :: NonEmpty Measurement -> Duration
-predictDuration measurements =
+mean :: NonEmpty Measurement -> Ratio Int
+mean measurements =
   measurements <&> duration
     & Duration.mean

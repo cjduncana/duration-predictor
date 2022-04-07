@@ -10,12 +10,13 @@ module Domain.ActivityAggregate
     createActivityId,
     getMeasurements,
     measure,
-    predictDuration,
+    predict,
   )
 where
 
 import Data.Bifunctor (first)
 import Data.List.NonEmpty (NonEmpty, (<|))
+import Data.Ratio (Ratio)
 import Data.Time.Clock (UTCTime)
 import Data.UUID (UUID)
 import Domain.Activity (Activity)
@@ -78,10 +79,11 @@ measure (ActivityAggregate (activity, measurements)) measurementUuid duration me
         duration
         measuredAt
 
--- | Predict the next 'Duration' based on previous 'Measurement'
-predictDuration :: ActivityAggregate -> Duration
-predictDuration (ActivityAggregate (_, measurements)) =
-  Measurement.predictDuration measurements
+-- | Predict how many seconds the next 'Measurement' will take based on previous
+-- 'Measurement'
+predict :: ActivityAggregate -> Ratio Int
+predict (ActivityAggregate (_, measurements)) =
+  Measurement.mean measurements
 
 -- | Create an Activity's identity without the Activity
 createActivityId :: UUID -> ActivityId
