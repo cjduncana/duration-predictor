@@ -1,4 +1,4 @@
-module Domain.Measurement (Measurement, create, mean) where
+module Domain.Measurement (Measurement, create, duration, mean) where
 
 import Data.Function ((&))
 import Data.Functor ((<&>))

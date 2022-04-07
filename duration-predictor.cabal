@@ -28,6 +28,7 @@ library
         InterfaceAdapters.ActivityRepositoryAsState
         UseCases.ActivityAggregate
         Utils.Entity
+        Utils.Fractional
         Utils.Indexable
         Utils.NonEmptyText
 

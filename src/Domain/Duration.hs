@@ -3,13 +3,22 @@
 -- Description: The amount of time elapsed between two events
 --
 -- A 'Duration' is the amount of time elapsed between two events.
-module Domain.Duration (Duration, DurationError (NegativeValue), create, mean) where
+module Domain.Duration
+  ( Duration,
+    DurationError (NegativeValue),
+    Domain.Duration.toInt,
+    create,
+    mean,
+    nextAverage,
+  )
+where
 
 import Data.Functor ((<&>))
 import Data.List.NonEmpty (NonEmpty)
 import Data.Ratio (Ratio, (%))
 import qualified Data.Time.Clock as Time
 import qualified GHC.Read as Read
+import qualified Utils.Fractional as Fractional
 
 -- | Amount of time elapsed in seconds
 newtype Duration = Duration Int deriving (Eq)
@@ -32,12 +41,22 @@ create duration =
     then Left (NegativeValue duration)
     else Right (Duration duration)
 
+toInt :: Duration -> Int
+toInt (Duration duration) = duration
+
 -- | The arithmetic mean of more than one 'Duration'
 mean :: NonEmpty Duration -> Ratio Int
 mean durations =
   total % length durations
   where
     (Duration total) = sum durations
+
+nextAverage :: Int -> Ratio Int -> Duration -> Ratio Int
+nextAverage count previousAverage (Duration nextDuration) =
+  Fractional.nextAverage
+    (fromIntegral count)
+    previousAverage
+    (fromIntegral nextDuration)
 
 -- Instances
 

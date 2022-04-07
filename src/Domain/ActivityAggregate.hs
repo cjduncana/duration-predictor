@@ -50,7 +50,12 @@ create ::
 create activityUuid name measurementUuid duration measuredAt =
   ActivityAggregate (activity, pure measurement)
   where
-    activity = Activity.create activityUuid name
+    activity =
+      Activity.create
+        activityUuid
+        name
+        (fromIntegral $ Duration.toInt duration)
+        1
     measurement =
       Measurement.create
         measurementUuid
@@ -70,7 +75,10 @@ measure ::
   UTCTime ->
   ActivityAggregate
 measure (ActivityAggregate (activity, measurements)) measurementUuid duration measuredAt =
-  ActivityAggregate (activity, measurement <| measurements)
+  ActivityAggregate
+    ( Activity.addMeasurement measurement activity,
+      measurement <| measurements
+    )
   where
     measurement =
       Measurement.create
@@ -82,8 +90,8 @@ measure (ActivityAggregate (activity, measurements)) measurementUuid duration me
 -- | Predict how many seconds the next 'Measurement' will take based on previous
 -- 'Measurement'
 predict :: ActivityAggregate -> Ratio Int
-predict (ActivityAggregate (_, measurements)) =
-  Measurement.mean measurements
+predict (ActivityAggregate (activity, _)) =
+  Activity.averageMeasurement activity
 
 -- | Create an Activity's identity without the Activity
 createActivityId :: UUID -> ActivityId
