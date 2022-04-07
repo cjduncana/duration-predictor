@@ -1,6 +1,6 @@
 module Main where
 
-import Wizard
+import Wizard (wizard)
 
 main :: IO ()
 main = do

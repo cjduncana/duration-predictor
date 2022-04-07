@@ -11,34 +11,33 @@ module UseCases.ActivityAggregate
     create,
     measure,
     predict,
-    Repository.listActivities
+    Repository.listActivities,
   )
 where
 
-import Domain.ActivityAggregate (ActivityAggregate)
-import qualified Domain.ActivityAggregate as ActivityAggregate
-import Domain.ActivityId (ActivityId)
+import Control.Monad ((>=>))
 import Data.Functor ((<&>))
 import Data.Ratio (Ratio)
 import Data.Time.Clock (UTCTime)
+import Domain.ActivityAggregate (ActivityAggregate)
+import qualified Domain.ActivityAggregate as ActivityAggregate
+import Domain.ActivityId (ActivityId)
 import Domain.Duration (Duration)
-import Utils.NonEmptyText (NonEmptyText)
 import Polysemy (Members, Sem)
 import Polysemy.Error (Error)
+import qualified Polysemy.Error as Error
 import Polysemy.Input (Input)
 import qualified Polysemy.Input as Input
 import Polysemy.Random (Random)
 import qualified Polysemy.Random as Random
-import Control.Monad ((>=>))
-import qualified Polysemy.Error as Error
 import UseCases.ActivityRepository (ActivityRepository)
 import qualified UseCases.ActivityRepository as Repository
+import Utils.NonEmptyText (NonEmptyText)
 
 -- | Possible reasons why this module might fail
 newtype ActivityError
-  = ActivityNotFound  -- ^ If this module cannot get a Activity in the
-                      -- repository
-  ActivityId          -- ^ ID of a non-existent Activity
+  = -- | If this module cannot get a Activity in the repository
+    ActivityNotFound ActivityId
 
 -- | Create a new Activity in the repository
 create ::
@@ -95,6 +94,7 @@ mmeasure activity duration =
 
 getActivity ::
   Members '[ActivityRepository, Error ActivityError] r =>
-  ActivityId -> Sem r ActivityAggregate
+  ActivityId ->
+  Sem r ActivityAggregate
 getActivity activityId =
   Repository.get activityId >>= Error.note (ActivityNotFound activityId)

@@ -16,16 +16,17 @@ newtype Duration = Duration Int deriving (Eq)
 
 -- | Possible reasons why this module will not create a 'Duration'
 newtype DurationError
-  = NegativeValue   -- ^ This module guarantees that all 'Duration' are
-                    -- non-negative
-    Int         -- ^ An invalid 'Int'
-    deriving (Show)
+  = -- | This module guarantees that all 'Duration' are non-negative
+    NegativeValue Int
+  deriving (Show)
 
 -- | Smart constructor for 'Duration'
 --
--- Provide a non-negative 'Int' to create a 'Duration'
-create  :: Int -- ^ Amount of time elapsed
-        -> Either DurationError Duration
+-- Provide a non-negative 'Integer' to create a 'Duration'
+create ::
+  -- | Amount of time elapsed
+  Int ->
+  Either DurationError Duration
 create duration =
   if duration < 0
     then Left (NegativeValue duration)

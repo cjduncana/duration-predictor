@@ -52,6 +52,7 @@ To generate a local copy of this program's documentation, type `cabal new-haddoc
 * [Haskell][haskell]: The language used
 * [Polysemy][polysemy]: Higher-order, low-boilerplate free monads
 * [Tasty][tasty]: Modern and extensible testing framework
+* [Ormulo][ormulo]: A formatter for Haskell source code
 
 ## Versioning
 
@@ -76,6 +77,7 @@ This project is licensed under the MIT License - see the [LICENSE][license] file
 [haskell-ghc]: https://www.haskell.org/ghc/ "The Glasgow Haskell Compiler (GHC)"
 [haskell-ghcup]: https://www.haskell.org/ghcup/ "GHCup: installer for Haskell"
 [license]: LICENSE "License file"
+[ormulo]: https://github.com/tweag/ormolu "Ormulo: A formatter for Haskell source code"
 [polysemy]: https://hackage.haskell.org/package/polysemy "Higher-order, low-boilerplate free monads"
 [semver]: http://semver.org/ "Semantic Versioning"
 [tasty]: https://hackage.haskell.org/package/tasty "Modern and extensible testing framework"
